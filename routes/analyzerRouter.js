@@ -62,27 +62,38 @@ const analyzeCode = (code) => {
 
         // Handle block comments (/* ... */)
         if (inBlockComment) {
-            comments++;
-            if (trimmedLine.includes('*/')) inBlockComment = false;
-            return;
+            comments++; // Count each line within the block comment
+            if (trimmedLine.includes('*/')) {
+                inBlockComment = false; // Close block comment
+            }// Count all lines inside block comment
+            return; // Don't process further
         }
+
         if (trimmedLine.startsWith('/*')) {
-            comments++;
-            inBlockComment = !trimmedLine.includes('*/');
+            comments++; // Count the starting block comment
+            if (!trimmedLine.includes('*/')) {
+                inBlockComment = true; // Start block comment, but it hasn't ended
+            }
             return;
         }
 
         // Handle single-line comments (//)
         if (trimmedLine.startsWith('//')) {
-            comments++;
+            comments++; // Single-line comment
             return;
         }
 
         // Check for inline comments (e.g., code before or after //)
         if (trimmedLine.includes('//')) {
-            comments++;
-            const codeWithoutComment = trimmedLine.split('//')[0].trim();
-            if (codeWithoutComment.length === 0) return; // The line was purely a comment
+            const [codePart, commentPart] = trimmedLine.split('//');
+            if (commentPart.trim().length > 0) {
+                comments++; // Count the inline comment
+            }
+
+            // If there's no code before the comment (purely a comment line), skip the rest
+            if (codePart.trim().length === 0) {
+                return;
+            }
         }
 
         // Count logical and source lines of code (ignoring comments)
