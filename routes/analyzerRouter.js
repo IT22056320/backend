@@ -190,6 +190,21 @@ router.get("/home", async (req, res) => {
     }
 });
 
+router.get("/home/:id", async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        const analyzeAll = await Analyzer.findById(id, 'fileName code').exec();
+        if (!analyzeAll) {
+            return res.status(404).json({ success: false, message: "Data not found" });
+        }
+        res.status(200).json({ success: true, data: analyzeAll });
+    } catch (error) {
+        console.log("Error in fetching data:", error.message);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+});
+
 // PATCH route to update fileName and code
 router.patch("/home/:id", async (req, res) => {
     const { id } = req.params;
