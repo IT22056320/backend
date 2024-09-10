@@ -3,7 +3,6 @@ const express = require('express')
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
-
 const auth = require("./middlewares/auth");
 
 const app = express();
@@ -22,6 +21,8 @@ app.get("/protected", (req,res) => {
 })
 app.use("/api/",require("./routes/auth"));
 app.use("/api", require("./routes/analyzerRouter.js"));
+app.use("/api", require("./routes/ruleRoute.js"));
+
 
 //server configurations
 
