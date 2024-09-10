@@ -20,8 +20,9 @@ app.get("/protected", (req,res) => {
         message: "Hello World"
     })
 })
-app.use("/api/",require("./routes/auth"))
-
+app.use("/api/",require("./routes/auth"));
+app.use("/api", require("./routes/analyzerRouter.js"));
+app.use("/api", require("./routes/project.js"))
 //server configurations
 
 const PORT = process.env.PORT || 4000;
