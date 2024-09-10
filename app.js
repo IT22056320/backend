@@ -21,7 +21,7 @@ app.get("/protected", (req,res) => {
 })
 app.use("/api/",require("./routes/auth"));
 app.use("/api", require("./routes/analyzerRouter.js"));
-//app.use("/api", require("./routes/ruleRoute.js"));
+app.use("/api", require("./routes/project.js"));
 
 app.use('/api/projects', require("./routes/projectRoutes.js"));
 app.use('/api/folders', require("./routes/folderRoutes.js"));
