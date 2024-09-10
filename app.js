@@ -20,7 +20,8 @@ app.get("/protected", (req,res) => {
         message: "Hello World"
     })
 })
-app.use("/api/",require("./routes/auth"))
+app.use("/api/",require("./routes/auth"));
+app.use("/api", require("./routes/analyzerRouter.js"));
 
 //server configurations
 
