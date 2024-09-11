@@ -61,16 +61,28 @@ const updateFolder = async (req, res) => {
 
 // Delete folder
 const deleteFolder = async (req, res) => {
- 
+  const { id } = req.params; // Folder ID
+  const { projectId } = req.body; // Project ID should come from request body
 
-    try {
-      await Project.findByIdAndDelete(req.params.id);
-      res.json({ message: "Folder deleted successfully" });
-      
-          } catch (error) {
-            res.status(500).json({ message: error.message });
-          }
-        };
+  try {
+    // Find the project by projectId
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    // Filter out the folder with the specified ID from the project's folders
+    project.folders = project.folders.filter(folder => folder._id.toString() !== id);
+
+    // Save the updated project
+    await project.save();
+
+    res.json({ message: "Folder deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
      
 
 module.exports = {
