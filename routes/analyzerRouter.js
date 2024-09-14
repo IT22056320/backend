@@ -205,19 +205,9 @@ router.get("/home/:id", async (req, res) => {
     }
 });
 
-// PATCH route to update fileName and code
 router.patch("/home/:id", async (req, res) => {
     const { id } = req.params;
     const { fileName, code } = req.body;
-
-    // Manual Validation for fileName
-    if (fileName && fileName.length > 15) {
-        return res.status(400).json({ error: "File name cannot exceed 15 characters." });
-    }
-
-    if (fileName && !/\.js$/.test(fileName)) {
-        return res.status(400).json({ error: "File name must end with .js" });
-    }
 
     if (code) {
         // Syntax validation using esprima
